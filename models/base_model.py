@@ -17,7 +17,7 @@ class BaseModel:
     created_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
     updated_at = Column(DateTime, default=datetime.utcnow(), nullable=False)
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Instantiation of base model class
         Args:
             args: it won't be used
@@ -49,3 +49,18 @@ class BaseModel:
         self.updated_at = datetime.now()
         models.storage.new(self)
         models.storage.save()
+
+    def to_dict(self):
+            """creates dictionary of the class  and returns
+            Return:
+                returns a dictionary of all the key values in __dict__
+            """
+            my_dict = dict(self.__dict__)
+            my_dict["created_at"] = self.created_at.isoformat()
+            my_dict["updated_at"] = self.updated_at.isoformat()
+
+            keys = my_dict.keys()
+
+            if "_sa_instance_state" in keys:
+                del my_dict["_sa_instance_state"]
+            return my_dict
