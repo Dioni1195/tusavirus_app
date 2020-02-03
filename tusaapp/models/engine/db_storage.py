@@ -21,8 +21,6 @@ class DBStorage:
         """Instantiate a DBStorage object"""
         database = getenv('DATABASE_URL')
         self.__engine = create_engine('{}'.format(database))
-        if HBNB_ENV == "test":
-            Base.metadata.drop_all(self.__engine)
 
     def all(self):
         """query on the current database session"""
