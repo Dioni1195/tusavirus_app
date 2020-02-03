@@ -10,9 +10,9 @@ from models.state import State
 def get_states():
     """ Return status of the APP as OK """
     states_list = []
-    for state in storage.all('State').values():
+    for state in storage.all().values():
         states_list.append(state.to_dict())
-    return render_template('states.html', states=states_list, victims=storage.count())
+    return render_template('index.html', states=states_list, victims=storage.count())
 
 
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
@@ -32,10 +32,9 @@ def post_states():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
-def put_states_id(state_id):
+@app_views.route('/states', methods=['PUT'], strict_slashes=False)
+def put_states_id():
     """ Return status of the APP as OK """
-    catch_state = storage.get('State', state_id)
     data = request.get_json()
     if not data:
         abort(400, 'Not a JSON')
@@ -43,6 +42,7 @@ def put_states_id(state_id):
         abort(400, 'Missing name')
     if 'victims' not in data:
         abort(400, 'Missing victims')
+    catch_state = storage.get(data['name'])
     if catch_state is None:
         #If the object doesnt exists, create it
         """DUDAS A ESTE PUNTO, ES NECESARIO CREAR EL STATE O YA VA A ESTAR CREADO"""
