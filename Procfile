@@ -1,1 +1,1 @@
-web:gunicorn wsgi:app_1
+web:gunicorn tusavirus_app.tusaapp.api.v1.app:app
