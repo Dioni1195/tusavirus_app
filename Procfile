@@ -1,1 +1,1 @@
-web:gunicorn tusavirus_app.tusaapp.api.v1.app:app
+web:gunicorn tusaapp.app:app --log-file -
